@@ -109,20 +109,6 @@ final class ConfidenceMapBuilder {
     }
 
     private func medianConfidence(values: [Float], moonMask: MaskBuffer) -> Float {
-        var samples: [Float] = []
-        samples.reserveCapacity(values.count / 2)
-
-        for i in 0..<values.count {
-            if moonMask.data[i] > 0.5 {
-                samples.append(values[i])
-            }
-        }
-
-        if samples.isEmpty {
-            samples = values
-        }
-
-        samples.sort()
-        return samples[samples.count / 2]
+        return Histogram.median(values: values, mask: moonMask, bins: 512)
     }
 }

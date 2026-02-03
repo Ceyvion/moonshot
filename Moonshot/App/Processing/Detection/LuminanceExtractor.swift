@@ -74,6 +74,13 @@ final class LuminanceExtractor {
 
     /// Extract luminance from CGImage
     func extract(from cgImage: CGImage) -> LuminanceBuffer? {
+        if let accelerated = extractAccelerated(from: cgImage) {
+            return accelerated
+        }
+        return extractSlow(from: cgImage)
+    }
+
+    private func extractSlow(from cgImage: CGImage) -> LuminanceBuffer? {
         let width = cgImage.width
         let height = cgImage.height
 
@@ -187,23 +194,8 @@ final class LuminanceExtractor {
             return extract(from: cgImage)
         }
 
-        let pixelPtr = destBuffer.data!.assumingMemoryBound(to: UInt8.self)
-        var luminance = [Float](repeating: 0, count: dstWidth * dstHeight)
-
-        let rCoeff: Float = 0.2126
-        let gCoeff: Float = 0.7152
-        let bCoeff: Float = 0.0722
-
-        for y in 0..<dstHeight {
-            let rowStart = y * destBuffer.rowBytes
-            let outRow = y * dstWidth
-            for x in 0..<dstWidth {
-                let offset = rowStart + x * 4
-                let r = Float(pixelPtr[offset + 1]) / 255.0
-                let g = Float(pixelPtr[offset + 2]) / 255.0
-                let b = Float(pixelPtr[offset + 3]) / 255.0
-                luminance[outRow + x] = r * rCoeff + g * gCoeff + b * bCoeff
-            }
+        guard let luminance = lumaFromARGB8888Buffer(destBuffer, width: dstWidth, height: dstHeight) else {
+            return extractSlow(from: cgImage)
         }
 
         return LuminanceBuffer(width: dstWidth, height: dstHeight, data: luminance)
@@ -215,14 +207,20 @@ final class LuminanceExtractor {
         let height = cgImage.height
 
         // Create format for source
-        guard var sourceFormat = vImage_CGImageFormat(cgImage: cgImage) else {
-            return extract(from: cgImage)  // Fallback
-        }
+        var sourceFormat = vImage_CGImageFormat(
+            bitsPerComponent: 8,
+            bitsPerPixel: 32,
+            colorSpace: Unmanaged.passRetained(CGColorSpaceCreateDeviceRGB()),
+            bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.first.rawValue | CGBitmapInfo.byteOrder32Big.rawValue),
+            version: 0,
+            decode: nil,
+            renderingIntent: .defaultIntent
+        )
 
         // Create source buffer
         var sourceBuffer = vImage_Buffer()
         defer {
-            sourceBuffer.data?.deallocate()
+            free(sourceBuffer.data)
         }
 
         var error = vImageBuffer_InitWithCGImage(
@@ -234,26 +232,90 @@ final class LuminanceExtractor {
         )
 
         guard error == kvImageNoError else {
-            return extract(from: cgImage)
+            return nil
         }
 
-        // Create destination buffer (planar float)
-        var destBuffer = vImage_Buffer()
-        destBuffer.width = vImagePixelCount(width)
-        destBuffer.height = vImagePixelCount(height)
-        destBuffer.rowBytes = width * MemoryLayout<Float>.stride
-
-        let destData = UnsafeMutablePointer<Float>.allocate(capacity: width * height)
-        destBuffer.data = UnsafeMutableRawPointer(destData)
-
-        defer {
-            destBuffer.data?.deallocate()
+        guard let luma = lumaFromARGB8888Buffer(sourceBuffer, width: width, height: height) else {
+            return nil
         }
 
-        // Convert to planar float (we'll compute luminance manually)
-        // This is a simplified approach; full implementation would use vImageMatrixMultiply
+        return LuminanceBuffer(width: width, height: height, data: luma)
+    }
 
-        // For now, use the non-accelerated path
-        return extract(from: cgImage)
+    private func lumaFromARGB8888Buffer(
+        _ buffer: vImage_Buffer,
+        width: Int,
+        height: Int
+    ) -> [Float]? {
+        let count = width * height
+        guard count > 0 else { return nil }
+
+        var a = [Float](repeating: 0, count: count)
+        var r = [Float](repeating: 0, count: count)
+        var g = [Float](repeating: 0, count: count)
+        var b = [Float](repeating: 0, count: count)
+        let rowBytes = width * MemoryLayout<Float>.stride
+
+        let maxFloat: [Float] = [1, 1, 1, 1]
+        let minFloat: [Float] = [0, 0, 0, 0]
+
+        let convertError: vImage_Error = a.withUnsafeMutableBytes { aPtr in
+            r.withUnsafeMutableBytes { rPtr in
+                g.withUnsafeMutableBytes { gPtr in
+                    b.withUnsafeMutableBytes { bPtr in
+                        var aBuffer = vImage_Buffer(
+                            data: aPtr.baseAddress!,
+                            height: vImagePixelCount(height),
+                            width: vImagePixelCount(width),
+                            rowBytes: rowBytes
+                        )
+                        var rBuffer = vImage_Buffer(
+                            data: rPtr.baseAddress!,
+                            height: vImagePixelCount(height),
+                            width: vImagePixelCount(width),
+                            rowBytes: rowBytes
+                        )
+                        var gBuffer = vImage_Buffer(
+                            data: gPtr.baseAddress!,
+                            height: vImagePixelCount(height),
+                            width: vImagePixelCount(width),
+                            rowBytes: rowBytes
+                        )
+                        var bBuffer = vImage_Buffer(
+                            data: bPtr.baseAddress!,
+                            height: vImagePixelCount(height),
+                            width: vImagePixelCount(width),
+                            rowBytes: rowBytes
+                        )
+
+                        var localBuffer = buffer
+                        return vImageConvert_ARGB8888toPlanarF(
+                            &localBuffer,
+                            &aBuffer,
+                            &rBuffer,
+                            &gBuffer,
+                            &bBuffer,
+                            maxFloat,
+                            minFloat,
+                            vImage_Flags(kvImageNoFlags)
+                        )
+                    }
+                }
+            }
+        }
+
+        guard convertError == kvImageNoError else { return nil }
+
+        var y = [Float](repeating: 0, count: count)
+        var rc: Float = 0.2126
+        vDSP_vsmul(r, 1, &rc, &y, 1, vDSP_Length(count))
+
+        var gc: Float = 0.7152
+        vDSP_vsma(g, 1, &gc, y, 1, &y, 1, vDSP_Length(count))
+
+        var bc: Float = 0.0722
+        vDSP_vsma(b, 1, &bc, y, 1, &y, 1, vDSP_Length(count))
+
+        return y
     }
 }

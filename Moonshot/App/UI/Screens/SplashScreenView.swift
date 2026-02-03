@@ -1,14 +1,14 @@
 import SwiftUI
 
-/// Animated splash screen with falling snow effect displayed on app launch
+/// Animated splash screen with morphing constellation and falling stars displayed on app launch
 struct SplashScreenView: View {
     @Environment(\.accessibilityReduceMotion) var reduceMotion
     @Binding var isPresented: Bool
-    @State private var pulse = false
+    @State private var moonPulse = false
 
     var body: some View {
         ZStack {
-            // Snow effect background (only if motion is not reduced)
+            // Star field background (only if motion is not reduced)
             if !reduceMotion {
                 SnowView()
                     .ignoresSafeArea()
@@ -18,19 +18,25 @@ struct SplashScreenView: View {
             }
 
             // Content overlay
-            VStack(spacing: 20) {
-                // Moon icon with glow effect (matching HomeScreen)
-                Image(systemName: "moon.fill")
-                    .font(.system(size: 96))
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [.white, Color(white: 0.8)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
+            VStack(spacing: 24) {
+                // Moon with morphing constellation
+                ZStack {
+                    // Morphing constellation around the moon
+                    AnimatedConstellation()
+
+                    // Moon icon centered within constellation
+                    Image(systemName: "moon.fill")
+                        .font(.system(size: 70))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [.white, Color(white: 0.85)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
                         )
-                    )
-                    .shadow(color: .white.opacity(0.4), radius: 30, x: 0, y: 0)
-                    .scaleEffect(reduceMotion ? 1.0 : (pulse ? 1.03 : 0.97))
+                        .shadow(color: .white.opacity(0.5), radius: 25, x: 0, y: 0)
+                        .scaleEffect(reduceMotion ? 1.0 : (moonPulse ? 1.02 : 0.98))
+                }
 
                 // App title
                 Text("Moonshot")
@@ -41,22 +47,22 @@ struct SplashScreenView: View {
         }
         .onAppear {
             if !reduceMotion {
-                withAnimation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true)) {
-                    pulse = true
+                withAnimation(.easeInOut(duration: 2.5).repeatForever(autoreverses: true)) {
+                    moonPulse = true
                 }
             }
-            // Auto-dismiss after 2.5 seconds
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+            // Auto-dismiss after 3.5 seconds (slightly longer to show constellation morph)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
                 let animation = reduceMotion ? nil : Animation.easeInOut(duration: 0.5)
                 withAnimation(animation) { isPresented = false }
             }
         }
         .onChange(of: reduceMotion) { newValue in
             if newValue {
-                pulse = false
+                moonPulse = false
             } else {
-                withAnimation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true)) {
-                    pulse = true
+                withAnimation(.easeInOut(duration: 2.5).repeatForever(autoreverses: true)) {
+                    moonPulse = true
                 }
             }
         }

@@ -13,6 +13,7 @@
 		23802498D9667450B9BE97AD /* PresetToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3382CA9E94F276C19066122A /* PresetToggle.swift */; };
 		2965FD7849C9A0BF312D465F /* CircleFitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565B134389C49681E556E3F1 /* CircleFitter.swift */; };
 		2E2D98FE3E2917961D9298C7 /* LuminanceExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71383557DCEA1EE06BC70A83 /* LuminanceExtractor.swift */; };
+		32322589E01D9C9A016D8AB3 /* Histogram.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC52DBCF954273B424E7AC6 /* Histogram.swift */; };
 		3788F74617AA760C0CD45053 /* RealityMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F76B1BE4167947D86F88664 /* RealityMeter.swift */; };
 		40EF4F8C1CE63EAF9DF09030 /* WarningBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B76EAD250FAD77A359313E /* WarningBanner.swift */; };
 		418F0C958281E46D5B973D07 /* MaskGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87001D80B165E83DB526B4D6 /* MaskGenerator.swift */; };
@@ -21,6 +22,7 @@
 		44630B2E96F9D9D7E56E6A4A /* ConstellationProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 622E7A25123A3FB389C96299 /* ConstellationProgress.swift */; };
 		475B64E1D59CF993F4786307 /* PerceptualTunerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B07F827A6BD76FAA81EB1ED /* PerceptualTunerTests.swift */; };
 		4D12DF4A2A46F93981C004EC /* PresetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C390B45BAD3D1711FE6D2E71 /* PresetConfiguration.swift */; };
+		51B5CD93642098ED66CC46EC /* AnimatedConstellation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F0F5F4873A41A1CC4A0260 /* AnimatedConstellation.swift */; };
 		5416B782F5F05D8770F46D90 /* ToneMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD08410E7EE8AC57323E9FD7 /* ToneMapper.swift */; };
 		5800B3848B644810A8EB72EB /* StrengthSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98D36D122660827DE4064B /* StrengthSlider.swift */; };
 		5AC738E9DB2E512BCB741B69 /* MoonDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C1C2753C4F0B14DE65BA58 /* MoonDetector.swift */; };
@@ -49,6 +51,7 @@
 		B92EE2C8798753FDFFA7B4C3 /* BeforeAfterSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBDBCF88F340DC916B85901 /* BeforeAfterSlider.swift */; };
 		B94D5A07D8911CB8F593A9AB /* PerceptualMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08FED93C945BBAA932C5331 /* PerceptualMetrics.swift */; };
 		BF2E0BE70FA8D2B14018F80C /* EnhancementMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ACB13BAA738D8C726B90BE /* EnhancementMetrics.swift */; };
+		C17297CEEE99E484210ED0F4 /* GaussianKernelCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71B4DDAD095D6DCE0E61D7F /* GaussianKernelCache.swift */; };
 		CAE9782E72DB5A829F9FC968 /* MetalContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0CD53B41D65987C5392253 /* MetalContext.swift */; };
 		CFB3F5240A96D2C8C25C2E14 /* NaturalPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421ED33AF134BA15F01DE1D1 /* NaturalPreset.swift */; };
 		D7687469CC885004450C339F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E150BAB3A8706831AF0CC6FE /* Assets.xcassets */; };
@@ -81,6 +84,7 @@
 		296C2181E8F2390D2CD6F278 /* MoonshotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonshotApp.swift; sourceTree = "<group>"; };
 		2F0CD53B41D65987C5392253 /* MetalContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalContext.swift; sourceTree = "<group>"; };
 		3382CA9E94F276C19066122A /* PresetToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetToggle.swift; sourceTree = "<group>"; };
+		35F0F5F4873A41A1CC4A0260 /* AnimatedConstellation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedConstellation.swift; sourceTree = "<group>"; };
 		37CB3196ADA163BB9ECEA386 /* ConfidenceMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfidenceMap.swift; sourceTree = "<group>"; };
 		38B76EAD250FAD77A359313E /* WarningBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningBanner.swift; sourceTree = "<group>"; };
 		421ED33AF134BA15F01DE1D1 /* NaturalPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaturalPreset.swift; sourceTree = "<group>"; };
@@ -112,6 +116,7 @@
 		AF8CC92E579709DAB053C226 /* Moonshot.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Moonshot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1FF32B7E069847306F1BCD4 /* WaveletSharpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveletSharpener.swift; sourceTree = "<group>"; };
 		B388FC6430D9C8BE12DFF441 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
+		B71B4DDAD095D6DCE0E61D7F /* GaussianKernelCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaussianKernelCache.swift; sourceTree = "<group>"; };
 		BD1D22E58BFF19F3602DB8ED /* SharpnessScorer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharpnessScorer.swift; sourceTree = "<group>"; };
 		C390B45BAD3D1711FE6D2E71 /* PresetConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetConfiguration.swift; sourceTree = "<group>"; };
 		C826373AC49D4AA367A1DB3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -128,6 +133,7 @@
 		F22FDD7C72BDC64473FE6460 /* ConnectedComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedComponents.swift; sourceTree = "<group>"; };
 		F3ACB13BAA738D8C726B90BE /* EnhancementMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhancementMetrics.swift; sourceTree = "<group>"; };
 		F9697679695FB387ADBEC0FD /* Common.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Common.metal; sourceTree = "<group>"; };
+		FBC52DBCF954273B424E7AC6 /* Histogram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Histogram.swift; sourceTree = "<group>"; };
 		FD08410E7EE8AC57323E9FD7 /* ToneMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneMapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -191,6 +197,7 @@
 		7EF58D7FD55ADD0317430F72 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				35F0F5F4873A41A1CC4A0260 /* AnimatedConstellation.swift */,
 				9CBDBCF88F340DC916B85901 /* BeforeAfterSlider.swift */,
 				622E7A25123A3FB389C96299 /* ConstellationProgress.swift */,
 				3382CA9E94F276C19066122A /* PresetToggle.swift */,
@@ -325,8 +332,10 @@
 				A372C2FCA14074F0A142A9C5 /* Denoiser.swift */,
 				F3ACB13BAA738D8C726B90BE /* EnhancementMetrics.swift */,
 				EEC121B6AC46E97D6A214A84 /* EnhancementPipeline.swift */,
+				B71B4DDAD095D6DCE0E61D7F /* GaussianKernelCache.swift */,
 				CB6ECA773D2DF91949449C97 /* HaloGuard.swift */,
 				29112AAD21FEB705E5B5293E /* HighlightCompensator.swift */,
+				FBC52DBCF954273B424E7AC6 /* Histogram.swift */,
 				6E52CCB91713D899C8AC9BC3 /* ImageCropper.swift */,
 				49CC005932F1E813975588DE /* MicroContrast.swift */,
 				E08FED93C945BBAA932C5331 /* PerceptualMetrics.swift */,
@@ -422,6 +431,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51B5CD93642098ED66CC46EC /* AnimatedConstellation.swift in Sources */,
 				1DE4284A0ABA1F525A845965 /* AppCoordinator.swift in Sources */,
 				B92EE2C8798753FDFFA7B4C3 /* BeforeAfterSlider.swift in Sources */,
 				EE90AAB5D2C8C9C6E9F4819F /* CaptureScreen.swift in Sources */,
@@ -438,8 +448,10 @@
 				83B4BB43306AFE1DEEFC80E9 /* EnhanceScreen.swift in Sources */,
 				BF2E0BE70FA8D2B14018F80C /* EnhancementMetrics.swift in Sources */,
 				DAA63F59BF0975C41809D8A6 /* EnhancementPipeline.swift in Sources */,
+				C17297CEEE99E484210ED0F4 /* GaussianKernelCache.swift in Sources */,
 				E91A1F2C799833C1D1F96B44 /* HaloGuard.swift in Sources */,
 				9547A3A8F79FE558569A993C /* HighlightCompensator.swift in Sources */,
+				32322589E01D9C9A016D8AB3 /* Histogram.swift in Sources */,
 				984CAB52D3C9EA5204E45956 /* HomeScreen.swift in Sources */,
 				DEC5EE2D9BB8A5C7B7D0426E /* ImageCropper.swift in Sources */,
 				2E2D98FE3E2917961D9298C7 /* LuminanceExtractor.swift in Sources */,

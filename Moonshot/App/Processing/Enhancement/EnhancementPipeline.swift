@@ -367,19 +367,8 @@ final class EnhancementPipeline {
     }
 
     private func percentile(luma: [Float], mask: MaskBuffer, percentile: Float) -> Float {
-        var values: [Float] = []
-        values.reserveCapacity(luma.count / 2)
-        for i in 0..<luma.count {
-            if mask.data[i] > 0.5 {
-                values.append(luma[i])
-            }
-        }
-        if values.isEmpty {
-            values = luma
-        }
-        values.sort()
-        let index = min(values.count - 1, max(0, Int(Float(values.count - 1) * percentile)))
-        return max(0.001, values[index])
+        let value = Histogram.percentile(values: luma, mask: mask, percentile: percentile, bins: 1024)
+        return max(0.001, value)
     }
 
     private func localCircle(from detection: MoonDetectionResult, cropRect: CGRect) -> FittedCircle {
